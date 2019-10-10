@@ -8,12 +8,18 @@ interface HowlStatic {
 }
 
 interface Howl {
-  _refreshBuffer(sound: Sound): Howl;
+  _refreshBuffer(sound: HowlSound): Howl;
+  _getSoundIds(id: number | undefined): number[];
+  _soundById(id: number): HowlSound | undefined;
+  pause(id: number, internal: true): Howl;
+  play(id: number, internal: true): number;
 }
 
-interface Sound {
+interface HowlSound {
   _node: GainNode & { bufferSource: AudioBufferSourceNode };
   _panner: PannerNode | StereoPannerNode;
+  _paused: boolean;
+  _id: number;
 }
 
 // This plugin's internal state:
@@ -23,9 +29,9 @@ interface HowlerGlobal {
 }
 
 interface Howl {
-  _reverbOptions?: {
-    name: string;
-    dryGain: number;
-    wetGain: number;
-  };
+  _reverbOptions?: HowlReverbOptions;
+}
+
+interface HowlSound {
+  _reverbOptions?: HowlReverbOptions;
 }

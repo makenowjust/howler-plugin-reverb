@@ -33,35 +33,79 @@ Howler.loadIR = async (name: string, url: string): Promise<void> => {
   Howler._impluseResponses[name] = ir;
 };
 
-Howl.prototype.reverb = function(
+function reverb(this: Howl, id?: number): HowlReverbOptions | null;
+function reverb(this: Howl, options: HowlReverbOptions, id?: number): Howl;
+function reverb(
   this: Howl,
-  reverb: string | null = null,
-  dryVolume: number = 0.7,
-  wetVolume: number = 0.3
-): Howl {
-  // Updates this._reverbOptions.
-  if (reverb === null) {
-    delete this._reverbOptions;
-  } else {
-    this._reverbOptions = {
-      name: reverb,
-      dryGain: dryVolume,
-      wetGain: wetVolume
-    };
+  reverb: string | null,
+  dryVolume?: number,
+  wetVolume?: number,
+  id?: number
+): Howl;
+function reverb(
+  this: Howl,
+  arg1?: number | string | HowlReverbOptions | null,
+  arg2?: number,
+  wetVolume?: number,
+  id?: number
+): Howl | HowlReverbOptions | null {
+  // Return current options.
+  if (typeof arg1 === "undefined") {
+    return this._reverbOptions || null;
+  }
+  if (typeof arg1 === "number") {
+    const sound = this._soundById(arg1);
+    return sound ? sound._reverbOptions || null : null;
   }
 
-  // Update the connections.
-  if (this.playing()) {
-    this.pause().play();
+  // Extract options from arguments.
+  let name: string | null, dryGain: number, wetGain: number;
+  if (typeof arg1 === "object") {
+    ({ name, dryGain = 0.7, wetGain = 0.3 } = arg1 || { name: null });
+    id = arg2 as number | undefined;
+  } else {
+    name = arg1 as string | null;
+    dryGain = typeof arg2 === "undefined" ? 0.7 : arg2;
+    wetGain = typeof wetVolume === "undefined" ? 0.3 : wetVolume;
   }
+
+  if (typeof id === "undefined") {
+    if (name === null) {
+      delete this._reverbOptions;
+    } else {
+      this._reverbOptions = { name, dryGain, wetGain };
+    }
+  }
+
+  // Update _reverbOptions.
+  const ids = this._getSoundIds(id);
+  for (const id of ids) {
+    const sound = this._soundById(id);
+    if (!sound) {
+      continue;
+    }
+    if (name === null) {
+      delete sound._reverbOptions;
+    } else {
+      sound._reverbOptions = { name, dryGain, wetGain };
+    }
+
+    // Update the connections.
+    if (!sound._paused) {
+      this.pause(sound._id, true).play(sound._id, true);
+    }
+  }
+
   return this;
-};
+}
+
+Howl.prototype.reverb = reverb;
 
 const oldRefreshBuffer = Howl.prototype._refreshBuffer;
-Howl.prototype._refreshBuffer = function(this: Howl, sound: Sound): Howl {
+Howl.prototype._refreshBuffer = function(this: Howl, sound: HowlSound): Howl {
   oldRefreshBuffer.call(this, sound);
 
-  const options = this._reverbOptions;
+  const options = sound._reverbOptions;
   if (!options) {
     return this;
   }

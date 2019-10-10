@@ -33,16 +33,14 @@ const main = async () => {
     });
 
   dry.addEventListener("change", () => {
-    if (!howl._reverbOptions) {
-      return;
+    if (howl.reverb()) {
+      howl.reverb("ir", dry.valueAsNumber, wet.valueAsNumber);
     }
-    howl.reverb("ir", dry.valueAsNumber, wet.valueAsNumber);
   });
   wet.addEventListener("change", () => {
-    if (!howl._reverbOptions) {
-      return;
+    if (howl.reverb()) {
+      howl.reverb("ir", dry.valueAsNumber, wet.valueAsNumber);
     }
-    howl.reverb("ir", dry.valueAsNumber, wet.valueAsNumber);
   });
 };
 
