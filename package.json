@@ -1,6 +1,6 @@
 {
   "name": "howler-plugin-reverb",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Howler.js plugin to support reverb effect",
   "main": "lib/index.js",
   "types": "types/holwer-plugin-reverb.d.ts",
