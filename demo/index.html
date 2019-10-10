@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>howler-plugin-reverb: demo</title>
+  </head>
+  <body>
+    <div>
+      <button id="play-normal">play (no reverb)</button>
+      <button id="play-reverb">play (reverb)</button>
+      <button id="stop">stop</button>
+    </div>
+    <div>
+      <label>
+        Volume:
+        <input
+          id="volume"
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+          value="1.0"
+        />
+      </label>
+      <label>
+        Dry:
+        <input
+          id="dry-gain"
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+          value="0.7"
+        />
+      </label>
+      <label>
+        Wet:
+        <input
+          id="wet-gain"
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+          value="0.3"
+        />
+      </label>
+    </div>
+
+    <script src="index.ts"></script>
+  </body>
+</html>

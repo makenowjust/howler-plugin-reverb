@@ -1,0 +1,29 @@
+{
+  "name": "howler-plugin-reverb",
+  "version": "1.0.0",
+  "description": "Howler.js plugin to support reverb effect",
+  "main": "lib/index.js",
+  "types": "types/holwer-plugin-reverb.d.ts",
+  "author": "TSUYUSATO Kitsune",
+  "license": "MIT",
+  "files": [
+    "lib",
+    "types"
+  ],
+  "scripts": {
+    "build": "tsc -p ./tsconfig.build.json",
+    "format": "prettier --ignore-path .gitignore --write '**/*.{ts,html}'",
+    "lint": "prettier --ignore-path .gitignore --check '**/*.{ts,html}'",
+    "typecheck": "tsc -p . --noEmit"
+  },
+  "devDependencies": {
+    "@types/howler": "^2.1.1",
+    "howler": "^2.1.2",
+    "parcel-bundler": "^1.12.3",
+    "prettier": "^1.18.2",
+    "typescript": "^3.6.3"
+  },
+  "browserslist": [
+    "last 1 Chrome versions"
+  ]
+}
