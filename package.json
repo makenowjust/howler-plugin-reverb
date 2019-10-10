@@ -12,8 +12,8 @@
   ],
   "scripts": {
     "build": "tsc -p ./tsconfig.build.json",
-    "format": "prettier --ignore-path .gitignore --write '**/*.{ts,html}'",
-    "lint": "prettier --ignore-path .gitignore --check '**/*.{ts,html}'",
+    "format": "prettier --ignore-path .gitignore --write '**/*.{ts,html,json,yml}'",
+    "lint": "prettier --ignore-path .gitignore --check '**/*.{ts,html,json,yml}'",
     "typecheck": "tsc -p . --noEmit"
   },
   "devDependencies": {
